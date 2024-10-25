@@ -5,7 +5,7 @@ using UnityEngine;
 public class Settings : MonoBehaviour
 {
 
-    [SerializeField] private float volume = 0.5f;
+    [SerializeField][Range(0.0f, 1f)] private float volume = 0.5f;
 
 
     // Start is called before the first frame update
