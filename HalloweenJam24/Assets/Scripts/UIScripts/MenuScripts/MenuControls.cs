@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MenuControls : MonoBehaviour
 {
 
-    [SerializeField] private GameObject volumeSlider = null, volumeControlHolder = null, menuHolder = null;
+    [SerializeField] private GameObject volumeSlider = null, volumeControlHolder = null, menuHolder = null, creditsHolder = null;
     public void loadGame()
     {
         SceneManager.LoadSceneAsync("GameplayScene");
@@ -30,6 +30,19 @@ public class MenuControls : MonoBehaviour
         }
     }
 
+    public void viewCredits()
+    {
+        if (menuHolder != null)
+        {
+            menuHolder.SetActive(false);
+        }
+
+        if (creditsHolder != null)
+        {
+            creditsHolder.SetActive(true);
+        }
+    }
+
     public void returnToMenu()
     {
         if (menuHolder != null)
@@ -39,6 +52,10 @@ public class MenuControls : MonoBehaviour
         if (volumeControlHolder != null)
         {
             volumeControlHolder.SetActive(false);
+        }
+        if (creditsHolder != null)
+        {
+            creditsHolder.SetActive(false);
         }
     }
 
