@@ -1,26 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuControls : MonoBehaviour
 {
-    
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public static void loadGame()
+    [SerializeField] private GameObject volumeSlider = null, volumeControlHolder = null, menuHolder = null;
+    public void loadGame()
     {
         SceneManager.LoadSceneAsync("GameplayScene");
+    }
+    public void viewSettings()
+    {
+        if (menuHolder != null) 
+        {
+            menuHolder.SetActive(false);
+        }
+        if (volumeControlHolder != null)
+        {
+            volumeControlHolder.SetActive(true);
+        }
+
+        if (volumeSlider != null)
+        {
+            volumeSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("GlobalVolume");
+        }
+    }
+
+    public void returnToMenu()
+    {
+        if (menuHolder != null)
+        {
+            menuHolder.SetActive(true);
+        }
+        if (volumeControlHolder != null)
+        {
+            volumeControlHolder.SetActive(false);
+        }
+    }
+
+    public void volumeChange()
+    {
+        float volume = volumeSlider.GetComponent<Slider>().value;
+
+        PlayerPrefs.SetFloat("GlobalVolume", volume);
+        PlayerPrefs.Save();
     }
 }

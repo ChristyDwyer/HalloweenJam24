@@ -27,10 +27,11 @@ public class Settings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (AudioListener.volume != volume)
+        if (AudioListener.volume != PlayerPrefs.GetFloat("GlobalVolume"))
         {
-           
-            PlayerPrefs.SetFloat("GlobalVolume", volume);
+
+            //PlayerPrefs.SetFloat("GlobalVolume", volume);
+            volume = PlayerPrefs.GetFloat("GlobalVolume");
             float temp = PlayerPrefs.GetFloat("GlobalVolume");
             AudioListener.volume = temp;
             Debug.Log(temp);
