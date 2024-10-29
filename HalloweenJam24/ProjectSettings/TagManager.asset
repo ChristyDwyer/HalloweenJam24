@@ -9,6 +9,7 @@ TagManager:
   - Guest
   - Plant
   - Neighbour
+  - IntersectableObject
   layers:
   - Default
   - TransparentFX
