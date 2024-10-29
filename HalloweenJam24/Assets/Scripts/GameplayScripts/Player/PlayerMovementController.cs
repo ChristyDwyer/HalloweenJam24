@@ -11,6 +11,8 @@ public class PlayerMovementController : MonoBehaviour
     private Vector2 movement_inputs = Vector2.zero;
     [SerializeField] private float clampY = 1.15f;
     [SerializeField] private float player_speed = 10f;
+    [SerializeField] private GameObject closestGuest;
+    [SerializeField] private GuestManager guestManager;
     void Awake()
     {
         //controller = GetComponent<CharacterController>();
@@ -30,7 +32,21 @@ public class PlayerMovementController : MonoBehaviour
     {
         HandleMovement();
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Guest" && closestGuest == null)
+        {
+            closestGuest = other.gameObject;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject == closestGuest)
+        {
+            closestGuest = null;
+        }
+    }
     private void HandleMovement()
     {
         float tempY = RectY(rb.velocity.y);
@@ -43,7 +59,23 @@ public class PlayerMovementController : MonoBehaviour
     
     private void HandleInteraction()
     {
-        //to be filled
+        if(closestGuest != null)
+        {
+            var guestAI = closestGuest.GetComponent<GuestAI>();
+            if(guestAI.isFollowing)
+            {
+                guestAI.isFollowing = false;
+                guestManager.NextGuest();
+            }
+            else
+            {
+                guestAI.isFollowing=true;
+            }
+        }
+        else
+        {
+            Debug.Log("alone");
+        }
     }
     private float RectY(float y_velocity)
     {
