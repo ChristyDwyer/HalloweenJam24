@@ -9,6 +9,7 @@ public class PlayerMovementController : MonoBehaviour
     //private CharacterController controller;
     private Rigidbody rb;
     private Vector2 movement_inputs = Vector2.zero;
+    [SerializeField] private float clampY = 1.15f;
     [SerializeField] private float player_speed = 10f;
     void Awake()
     {
@@ -27,12 +28,12 @@ public class PlayerMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleMovement();   
+        HandleMovement();
     }
     
     private void HandleMovement()
     {
-        float tempY = rb.velocity.y;
+        float tempY = RectY(rb.velocity.y);
         float moveX = movement_inputs.x * Time.deltaTime * player_speed;
         float moveZ = movement_inputs.y * Time.deltaTime * player_speed;
         //controller.Move(new Vector3 (movement_inputs.x, 0, movement_inputs.y));
@@ -44,7 +45,15 @@ public class PlayerMovementController : MonoBehaviour
     {
         //to be filled
     }
-
+    private float RectY(float y_velocity)
+    {
+        if (transform.position.y > clampY && y_velocity > 0)
+        {
+            transform.position = new Vector3(transform.position.x, clampY, transform.position.z);
+            y_velocity = 0; 
+        }
+        return y_velocity;
+    }
     private Vector2 ReadInput(Vector2 input)
     {
         return input;
